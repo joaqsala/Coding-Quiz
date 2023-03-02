@@ -7,47 +7,43 @@
     <title>Let's Play a Game</title>
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
+
 <nav>
-    <div id="highScore"> 
-        View Highscores
+    <div id="high-score"> 
+        VIEW HIGHSCORES
     </div>
-    <div id="timer">
-        TIMER
+    <div class="timer">
+        <p class="show-time">TIMER</p>
     </div>
         
 </nav>
 
 <body>
     <section class="console">
-        <h1>question area header</h1>
-        <div>content </div>
-       
+        <h1>Coding Quiz Challenge</h1>
+        <br><br>
+        <p></p>
+        <div><p>Answer 6 JavaScript related questions before the timer runs out and attempt to set a new personal record! </p>
+            <br>
+        <p>Warning: Any incorrect responses deduct 10 seconds from your remaining time. </p>
+        <div class="button-box">
+            <button type="button" class="begin-quiz">START</button>
+        </div>
+        </div>
+        
 
     </section>
 
-    <div class="questionConsole">
+    <div class="console">
         <h2>Here is the first question that will be asked?</h2>
-        <ul id="firstQList">
-            <li id="choiceA">this is the first option</li>
-            <li id="choiceB">this is the second option</li>
-            <li id="choiceC">this is the third option</li>
-            <li id="choiceD">this is the fourth option</li>
-        </ul>
+        <div class="answer-choices">
+            <button class="answer-btn">A. this is the first option</button>
+            <button class="answer-btn">B. this is the second option</button>
+            <button class="answer-btn">C. this is the third option</button>
+            <button class="answer-btn">D. this is the fourth option</button>
 
+        </div>
     </div>
-    <ul id="firstQList">
-        <li id="choiceA">this is the first option</li>
-        <li id="choiceB">this is the second option</li>
-        <li id="choiceC">this is the third option</li>
-        <li id="choiceD">this is the fourth option</li>
-    </ul>
-
-    <ol>
-        <li>Coffee</li>
-        <li>Tea</li>
-        <li>Milk</li>
-      </ol>
-   
 
     <script src="assets/js/index.js"></script>
 </body>

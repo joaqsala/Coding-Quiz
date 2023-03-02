@@ -1,9 +1,12 @@
+/* univesal selectors */
+
 * {
 box-sizing: border-box;
-margin: 10px;
+margin: 0;
 padding: 0;
 }
 
+/* nav bar settings */
 nav {
     color: purple;
     font-size: 1.5 rem;
@@ -11,22 +14,50 @@ nav {
     flex-direction: row;
     justify-content: space-between;
     padding: 20px;
-    font-weight: bold;
+    font-size: 1.1rem;
     font-family: Arial, Helvetica, sans-serif;
 }
 
+/* outer box */
 .console {
     border: 1px solid gray;
     border-radius: 5px; 
     display: flex;
     flex-direction: column;
-    height: 500px;
+    height: 350px;
     width: 70%;
     margin: auto;
     padding: 40px;
 }
 
-section {
-    border: 2px black;
-    
+/* centers the button in the div */
+.button-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+}
+
+/* button styles */
+.begin-quiz {
+    background-color: rgb(220, 190, 245);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+}
+
+.question-console {
+    padding: 40px;
+    margin: 10px;
+}
+
+.answer-choices {
+    display: flex;
+    flex-direction: column;
+}
+
+.answer-btn {
+    text-align: left;
+    padding: 10px;
+    margin: 5px;
 }
