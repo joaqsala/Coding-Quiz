@@ -28,6 +28,7 @@ nav {
     width: 70%;
     margin: auto;
     padding: 40px;
+    margin-top: 40px;
 }
 
 /* centers the button in the div */
@@ -60,4 +61,32 @@ nav {
     text-align: left;
     padding: 10px;
     margin: 5px;
+    background-color: rgb(232, 224, 240);
+    border-radius: 5px;
 }
+
+.answer-btn:hover {
+    background-color: rgb(158, 68, 248);
+    color: white;
+}
+
+.answer-btn:active {
+    background-color: rgb(158, 68, 248);
+    color: white;
+}
+
+h2 {
+    padding: 10px;
+}
+
+.rightWrong {
+    /* margin: auto; */
+    margin-top: -45px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: purple;
+    text-align: center;
+    width: 100%;
+}
+
