@@ -27,6 +27,22 @@ var questionObj = [
   ],
   correctAnswer: "Array type"
 },
+
+{ question: "Arrays in JavaScript are defined by which of the following statements?",
+choices: [
+  "It is an ordered list of objects",'It is an ordered list of strings', 'It is an ordered list of values', 'It is an ordered list of functions',
+],
+correctAnswer: "It is an ordered list of values"
+},
+
+{ question: "Where is Client-side JavaScript code is embedded within HTML documents?",
+choices: [
+  "A URL that uses the special javascript:code",'A URL that uses the special javascript:protocol', 'A URL that uses the special javascript:encoding', 'A URL that uses the special javascript:stack',
+],
+correctAnswer: "A URL that uses the special javascript:protocol"
+},
+
+
 ];
 
 
@@ -42,7 +58,7 @@ function countdown() {
       timerDisplay.textContent = timeLeft + ' seconds';
       timeLeft--;
     } else if (timeLeft === 1) {
-      timerDisplay.textContent = timeLeft + ' seconds';
+      timerDisplay.textContent = timeLeft + ' second';
       timeLeft--;
     } else {
       timerDisplay.textContent = 'GAME OVER';
@@ -99,13 +115,21 @@ function displayNewArea() {
         displayResult.textContent = "Sorry, that is not correct!";
         questionCount++;
         penalty();
-        
         }
-          
+        displayNewArea();
       }
     );
-
 }
+}
+
+function displayScore(){
+  newSection.innerHTML = ''
+  var newH3 = document.createElement('h3');
+  newQuesDiv.appendChild(newH3);
+  newH3.textContent = "Add your initials."
+
+
+
 }
 
 
