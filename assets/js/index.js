@@ -42,12 +42,52 @@ choices: [
 correctAnswer: "A URL that uses the special javascript:protocol"
 },
 
+{ question: "Which of the following objects is the main entry point to all client-side JavaScript features and APIs?",
+choices: [
+  'Position', 'Window', 'Standard', 'Location',
+],
+correctAnswer: "Window"
+},
 
+{ question: "Which of the following can be used to call a JavaScript Code Snippet?",
+choices: [
+  'Function/Method','Preprocessor', 'Triggering Event', 'RMI',
+],
+correctAnswer: "Function/Method"
+},
+
+{ question: "Which of the following scoping type does JavaScript use?",
+choices: [
+  'Sequential', 'Segmental', 'Lexical', 'Literal',
+],
+correctAnswer: "Lexical"
+},
+
+{ question: "Why is JavaScript Engine needed?",
+choices: [
+  'Both Compiling & Interpreting the JavaScript', 'Parsing the JavaScript', 'Interpreting the JavaScript', 'Compiling the JavaScript',
+],
+correctAnswer: "Interpreting the JavaScript"
+},
+
+{ question: "What will be the result or type of error if p is not defined in the following JavaScript code snippet : console.log(p)?",
+choices: [
+  'NaN', 'Reference Error', 'Null', 'Zero',
+],
+correctAnswer: "Reference Error"
+},
+
+{ question: "Why are event handlers needed in JS",
+choices: [
+  'Allow JavaScript code to alter the behaviour of windows', 'Adds innerHTML page to the code', 'Change the server location', 'Performs handling of exceptions and occurrences',
+],
+correctAnswer: "Allow JavaScript code to alter the behaviour of windows"
+},
 ];
 
 
 
-var timeLeft = 60;
+var timeLeft = 45;
 
 //on click, start timer that counts down from 60 seconds
 function countdown() {
@@ -65,7 +105,7 @@ function countdown() {
       // `clearInterval()` stops timer
       clearInterval(timeInterval);
       // TODO Call a function to display the score/time and highscore
-      // displayScore();
+      displayScore();
     }
   }, 1000);
 }

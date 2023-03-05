@@ -79,7 +79,7 @@ h2 {
     padding: 10px;
 }
 
-.rightWrong {
+.right-wrong {
     /* margin: auto; */
     margin-top: -45px;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -91,6 +91,6 @@ h2 {
 }
 
 .highscores {
-    display: none;
+    display: hidden;
 }
 
