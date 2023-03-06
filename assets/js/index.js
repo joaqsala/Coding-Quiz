@@ -3,11 +3,11 @@ var startQuiz = document.querySelector(".begin-quiz");
 var newSection = document.querySelector('.console');
 var displayResult = document.querySelector(".right-wrong");
 var questionCount = 0;
+var answeredCorrect = 0;
 
 
 var questionObj = [
-  {
-    question: "What is JavaScript?",
+  { question: "What is JavaScript?",
     choices: [
       "JavaScript is a scripting language used to make websites interactive", "JavaScript is an assembly language used to make the website interactive", "JavaScript is a compliled language used to make the website interactive", "None of the above"
     ],
@@ -26,63 +26,63 @@ var questionObj = [
     "Null type",'Number type', 'Undefined type', 'Array type',
   ],
   correctAnswer: "Array type"
-},
+  },
 
-{ question: "Arrays in JavaScript are defined by which of the following statements?",
-choices: [
-  "It is an ordered list of objects",'It is an ordered list of strings', 'It is an ordered list of values', 'It is an ordered list of functions',
-],
-correctAnswer: "It is an ordered list of values"
-},
+  { question: "Arrays in JavaScript are defined by which of the following statements?",
+  choices: [
+   "It is an ordered list of objects",'It is an ordered list of strings', 'It is an ordered list of values', 'It is an ordered list of functions',
+  ],
+  correctAnswer: "It is an ordered list of values"
+  },
 
-{ question: "Where is Client-side JavaScript code is embedded within HTML documents?",
-choices: [
-  "A URL that uses the special javascript:code",'A URL that uses the special javascript:protocol', 'A URL that uses the special javascript:encoding', 'A URL that uses the special javascript:stack',
-],
-correctAnswer: "A URL that uses the special javascript:protocol"
-},
+  { question: "Where is Client-side JavaScript code is embedded within HTML documents?",
+  choices: [
+    "A URL that uses the special javascript:code",'A URL that uses the special javascript:protocol', 'A URL that uses the special javascript:encoding', 'A URL that uses the special javascript:stack',
+  ],
+  correctAnswer: "A URL that uses the special javascript:protocol"
+  },
 
-{ question: "Which of the following objects is the main entry point to all client-side JavaScript features and APIs?",
-choices: [
-  'Position', 'Window', 'Standard', 'Location',
-],
-correctAnswer: "Window"
-},
+  { question: "Which of the following objects is the main entry point to all client-side JavaScript features and APIs?",
+  choices: [
+    'Position', 'Window', 'Standard', 'Location',
+  ],
+  correctAnswer: "Window"
+  },
 
-{ question: "Which of the following can be used to call a JavaScript Code Snippet?",
-choices: [
-  'Function/Method','Preprocessor', 'Triggering Event', 'RMI',
-],
-correctAnswer: "Function/Method"
-},
+  { question: "Which of the following can be used to call a JavaScript Code Snippet?",
+  choices: [
+   'Function/Method','Preprocessor', 'Triggering Event', 'RMI',
+  ],
+  correctAnswer: "Function/Method"
+  },
 
-{ question: "Which of the following scoping type does JavaScript use?",
-choices: [
-  'Sequential', 'Segmental', 'Lexical', 'Literal',
-],
-correctAnswer: "Lexical"
-},
+  { question: "Which of the following scoping type does JavaScript use?",
+  choices: [
+    'Sequential', 'Segmental', 'Lexical', 'Literal',
+  ],
+  correctAnswer: "Lexical"
+  },
 
-{ question: "Why is JavaScript Engine needed?",
-choices: [
-  'Both Compiling & Interpreting the JavaScript', 'Parsing the JavaScript', 'Interpreting the JavaScript', 'Compiling the JavaScript',
-],
-correctAnswer: "Interpreting the JavaScript"
-},
+  { question: "Why is JavaScript Engine needed?",
+  choices: [
+    'Both Compiling & Interpreting the JavaScript', 'Parsing the JavaScript', 'Interpreting the JavaScript', 'Compiling the JavaScript',
+  ],
+  correctAnswer: "Interpreting the JavaScript"
+  },
 
-{ question: "What will be the result or type of error if p is not defined in the following JavaScript code snippet : console.log(p)?",
-choices: [
-  'NaN', 'Reference Error', 'Null', 'Zero',
-],
-correctAnswer: "Reference Error"
-},
+  { question: "What will be the result or type of error if p is not defined in the following JavaScript code snippet : console.log(p)?",
+  choices: [
+    'NaN', 'Reference Error', 'Null', 'Zero',
+  ],
+  correctAnswer: "Reference Error"
+  },
 
-{ question: "Why are event handlers needed in JS",
-choices: [
-  'Allow JavaScript code to alter the behaviour of windows', 'Adds innerHTML page to the code', 'Change the server location', 'Performs handling of exceptions and occurrences',
-],
-correctAnswer: "Allow JavaScript code to alter the behaviour of windows"
-},
+  { question: "Why are event handlers needed in JS",
+  choices: [
+    'Allow JavaScript code to alter the behaviour of windows', 'Adds innerHTML page to the code', 'Change the server location', 'Performs handling of exceptions and occurrences',
+  ],
+  correctAnswer: "Allow JavaScript code to alter the behaviour of windows"
+  },
 ];
 
 
@@ -151,64 +151,84 @@ function displayNewArea() {
     buttonArray[i].addEventListener('click', function (event){
       if(event.target.innerHTML === questionObj[questionCount].correctAnswer){
         displayResult.textContent = "Correct!";
+        answeredCorrect++;
         questionCount++;
       } else{
         displayResult.textContent = "Sorry, that is not correct!";
         questionCount++;
         penalty();
         }
-        displayNewArea();
-      }
-    );
-}
+
+    if (questionCount < questionObj.length){
+      displayNewArea();
+    } else {
+      displayScore();
+    }
+  }
+);}
 }
 
-//clears the .console and displays the score with box for initials
+//clears the .console and displays the score with input for initials
 function displayScore(){
   newSection.innerHTML = '';
   displayResult.textContent = " ";
 
+  //creates the divs, h3, and p for end of quiz graphics
   var newHighScoreDiv = document.createElement('div');
   var directionDiv = document.createElement('div');
   var entryDiv = document.createElement('div');
   var finalH3 = document.createElement('h3');
   var scoreP = document.createElement('p');
-
-
-  var initialsForm = document.createElement('form');  //TODO create addeventlistener
-  var labelForm = document.createElement('label');
-  var formInput = document.createElement("input");
-  formInput.setAttribute("type", "text");
-  formInput.setAttribute("placeholder", "initials");
-  formInput.setAttribute("maxlength", "2");
-  // initialsForm.setAttribute('class', 'myForm');
-
-  var subInitials = document.createElement("input");
-  subInitials.setAttribute("type", 'submit')
-  subInitials.setAttribute("value", 'submit')
-
-
+  
+  //appends divs, h3, and p to their divs  
   newSection.appendChild(newHighScoreDiv)
   newSection.appendChild(directionDiv)
   newSection.appendChild(entryDiv)
   newHighScoreDiv.appendChild(finalH3);
   directionDiv.appendChild(scoreP);
+  
+  //adds text to end of quiz graphics
+  finalH3.textContent = "Time's up! Lets see how you did!"
+  scoreP.textContent = "Your score is " + questionCount +"."
+
+  //creates the form to enter initials
+  var initialsForm = document.createElement('form');  
+  var labelForm = document.createElement('label');
+  var formInput = document.createElement("input");
+  formInput.setAttribute("type", "text");
+  formInput.setAttribute("placeholder", "initials");
+  formInput.setAttribute("maxlength", "2");
+
+  //creates submit button in the form and appends appropriate inputs to form
+  var subInitials = document.createElement("input");
+  subInitials.setAttribute("type", 'submit')
+  subInitials.setAttribute("value", 'submit')
   entryDiv.appendChild(initialsForm);
   initialsForm.appendChild(labelForm);
   initialsForm.appendChild(formInput);
   initialsForm.appendChild(subInitials);
 
-  finalH3.textContent = "Time's up! Lets see how you did!"
-  scoreP.textContent = "Your score is " + questionCount +"."
+  //set the text content of the label and button
   labelForm.textContent = "Add your initials."
   subInitials.innerHTML = "Submit";
-  
+
+  //add an event listener to the form submit 
+  initialsForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    entryDiv.innerHTML = ''
+
+      //get and save user's initials
+      var myInitials = formInput.value;
+      var myScore = answeredCorrect;
+      localStorage.setItem(myInitials, myScore);
+      finalH3.textContent = "Highscore";
+      //TODO fix this part 
+      scoreP.textContent = localStorage.getItem(myInitials) +" - "+ localStorage.getItem(myScore);
+    }
+  )
 }
-var myFormSumbit = document.getElementsByClassName("myForm");
-    
-myFormSumbit.addEventListener("submit", (e) => {
-  e.preventDefault();
-})
+
+//TODO add link from view highscores to local storage 
 
 
 //adds event listener to start button to start timer and quiz
