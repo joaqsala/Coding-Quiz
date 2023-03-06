@@ -1,7 +1,7 @@
 var timerDisplay = document.querySelector(".show-time");
 var startQuiz = document.querySelector(".begin-quiz");
 var newSection = document.querySelector('.console');
-var displayResult = document.querySelector(".rightWrong");
+var displayResult = document.querySelector(".right-wrong");
 var questionCount = 0;
 
 
@@ -87,7 +87,7 @@ correctAnswer: "Allow JavaScript code to alter the behaviour of windows"
 
 
 
-var timeLeft = 45;
+var timeLeft = 5;
 
 //on click, start timer that counts down from 60 seconds
 function countdown() {
@@ -117,7 +117,8 @@ function penalty(){
     timeLeft = 1;
   }}
 
-// TODO - remove previous content and display questions
+  
+// remove previous content and display questions
 function displayNewArea() {
   newSection.innerHTML = ''
 
@@ -162,15 +163,52 @@ function displayNewArea() {
 }
 }
 
+//clears the .console and displays the score with box for initials
 function displayScore(){
-  newSection.innerHTML = ''
-  var newH3 = document.createElement('h3');
-  newQuesDiv.appendChild(newH3);
-  newH3.textContent = "Add your initials."
+  newSection.innerHTML = '';
+  displayResult.textContent = " ";
+
+  var newHighScoreDiv = document.createElement('div');
+  var directionDiv = document.createElement('div');
+  var entryDiv = document.createElement('div');
+  var finalH3 = document.createElement('h3');
+  var scoreP = document.createElement('p');
 
 
+  var initialsForm = document.createElement('form');  //TODO create addeventlistener
+  var labelForm = document.createElement('label');
+  var formInput = document.createElement("input");
+  formInput.setAttribute("type", "text");
+  formInput.setAttribute("placeholder", "initials");
+  formInput.setAttribute("maxlength", "2");
+  // initialsForm.setAttribute('class', 'myForm');
 
+  var subInitials = document.createElement("input");
+  subInitials.setAttribute("type", 'submit')
+  subInitials.setAttribute("value", 'submit')
+
+
+  newSection.appendChild(newHighScoreDiv)
+  newSection.appendChild(directionDiv)
+  newSection.appendChild(entryDiv)
+  newHighScoreDiv.appendChild(finalH3);
+  directionDiv.appendChild(scoreP);
+  entryDiv.appendChild(initialsForm);
+  initialsForm.appendChild(labelForm);
+  initialsForm.appendChild(formInput);
+  initialsForm.appendChild(subInitials);
+
+  finalH3.textContent = "Time's up! Lets see how you did!"
+  scoreP.textContent = "Your score is " + questionCount +"."
+  labelForm.textContent = "Add your initials."
+  subInitials.innerHTML = "Submit";
+  
 }
+var myFormSumbit = document.getElementsByClassName("myForm");
+    
+myFormSumbit.addEventListener("submit", (e) => {
+  e.preventDefault();
+})
 
 
 //adds event listener to start button to start timer and quiz
@@ -179,8 +217,6 @@ startQuiz.addEventListener('click', function() {
   displayNewArea();
 }
 )
-
-//when all questions are answered or time reaches 0 the game is over
 
 //when the game is over, save initials and my score
 
