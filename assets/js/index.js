@@ -9,7 +9,7 @@ var answeredCorrect = 0;
 var questionObj = [
   { question: "What is JavaScript?",
     choices: [
-      "JavaScript is a scripting language used to make websites interactive", "JavaScript is an assembly language used to make the website interactive", "JavaScript is a compliled language used to make the website interactive", "None of the above"
+      "JavaScript is a scripting language used to make websites interactive", "JavaScript is an assembly language used to make the website interactive", "JavaScript is a compiled language used to make the website interactive", "None of the above"
     ],
     correctAnswer: "JavaScript is a scripting language used to make websites interactive"
   },
@@ -87,7 +87,7 @@ var questionObj = [
 
 
 
-var timeLeft = 5;
+var timeLeft = 45;
 
 //on click, start timer that counts down from 60 seconds
 function countdown() {
@@ -104,7 +104,7 @@ function countdown() {
       timerDisplay.textContent = 'GAME OVER';
       // `clearInterval()` stops timer
       clearInterval(timeInterval);
-      // TODO Call a function to display the score/time and highscore
+      // Call a function to display the score/time and highscore
       displayScore();
     }
   }, 1000);
@@ -114,7 +114,8 @@ function penalty(){
   if(timeLeft >= 11){
     timeLeft = timeLeft - 10;
   }else{
-    timeLeft = 1;
+    timeLeft = 0;
+    clearInterval(timeInterval);
   }}
 
   
@@ -163,9 +164,33 @@ function displayNewArea() {
       displayNewArea();
     } else {
       displayScore();
+      timeLeft = 0;
+      clearInterval(timeInterval);
     }
   }
 );}
+}
+
+var renderScore = function(){
+  newSection.innerHTML = '';
+  displayResult.textContent = " ";
+
+  //creates the divs, h3, and p for end of quiz graphics
+  var newHighScoreDiv = document.createElement('div');
+  var directionDiv = document.createElement('div');
+  var finalH3 = document.createElement('h3');
+  var scoreP = document.createElement('p');
+  scoreP.setAttribute("class", "add-space")
+  
+  //appends divs, h3, and p to their divs  
+  newSection.appendChild(newHighScoreDiv)
+  newHighScoreDiv.appendChild(finalH3);
+  
+
+  finalH3.textContent = "Highscore";
+
+  var getUser = JSON.parse(localStorage.getItem("player1"));
+  scoreP.textContent = getUser.user +" has a score of "+ getUser.score + ".";
 }
 
 //clears the .console and displays the score with input for initials
@@ -179,6 +204,7 @@ function displayScore(){
   var entryDiv = document.createElement('div');
   var finalH3 = document.createElement('h3');
   var scoreP = document.createElement('p');
+  scoreP.setAttribute("class", "add-space")
   
   //appends divs, h3, and p to their divs  
   newSection.appendChild(newHighScoreDiv)
@@ -189,7 +215,7 @@ function displayScore(){
   
   //adds text to end of quiz graphics
   finalH3.textContent = "Time's up! Lets see how you did!"
-  scoreP.textContent = "Your score is " + questionCount +"."
+  scoreP.textContent = "Your score is " + answeredCorrect +"."
 
   //creates the form to enter initials
   var initialsForm = document.createElement('form');  
@@ -215,18 +241,41 @@ function displayScore(){
   //add an event listener to the form submit 
   initialsForm.addEventListener("submit", function (event) {
     event.preventDefault();
-    entryDiv.innerHTML = ''
+
+    entryDiv.innerHTML = ""
+
+  //  if(myInitials === null){
+  //   alert("Add your initials in the box.")
+  //  } else { }
 
       //get and save user's initials
       var myInitials = formInput.value;
-      var myScore = answeredCorrect;
-      localStorage.setItem(myInitials, myScore);
+      var myScore = answeredCorrect.toString();
+
+      var player1 = {
+        user: myInitials,
+        score: myScore
+      } 
+      // var storedPlayers = localStorage.getItem("players");
+      // if(storedPlayers){
+      //   localStorage.setItem("players", JSON.stringify({...player1, ...storedPlayers}))
+      // } else {
+        localStorage.setItem("player1", JSON.stringify(player1));
+      // }
+      
       finalH3.textContent = "Highscore";
-      //TODO fix this part 
-      scoreP.textContent = localStorage.getItem(myInitials) +" - "+ localStorage.getItem(myScore);
-    }
+
+      var getUser = JSON.parse(localStorage.getItem("player1"));
+      scoreP.textContent = getUser.user +" has a score of "+ getUser.score + ".";
+      }
   )
 }
+
+var hScore = document.getElementById("high-score");
+hScore.addEventListener("click", function(){
+  //  newSection.setAttribute("style", "{display: none");
+renderScore();
+})
 
 //TODO add link from view highscores to local storage 
 
