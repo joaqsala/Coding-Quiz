@@ -109,3 +109,12 @@ h3{
 form {
     text-align: center;
 }
+
+.restart {
+    width: 130px;
+    margin: auto;
+    background-color: rgb(237, 226, 246);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+}

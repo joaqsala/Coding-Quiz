@@ -2,6 +2,9 @@ var timerDisplay = document.querySelector(".show-time");
 var startQuiz = document.querySelector(".begin-quiz");
 var newSection = document.querySelector('.console');
 var displayResult = document.querySelector(".right-wrong");
+var restartButton = document.createElement('button');
+restartButton.classList.add("restart");
+restartButton.innerHTML = "New Quiz";
 var questionCount = 0;
 var answeredCorrect = 0;
 
@@ -87,7 +90,7 @@ var questionObj = [
 
 
 
-var timeLeft = 45;
+var timeLeft = 5;
 
 //on click, start timer that counts down from 60 seconds
 function countdown() {
@@ -115,7 +118,6 @@ function penalty(){
     timeLeft = timeLeft - 10;
   }else{
     timeLeft = 0;
-    clearInterval(timeInterval);
   }}
 
   
@@ -123,7 +125,7 @@ function penalty(){
 function displayNewArea() {
   newSection.innerHTML = ''
 
-  //create new divs, an h2, and , gives them attributes, and appends them to the .console div  
+  //create new divs, an h2, and , gives them attributes, and appends them to the newSection/console div  
   var newQuesDiv = document.createElement('div');
   var newAnsChoiceDiv = document.createElement('div');
   var newH2 = document.createElement('h2');
@@ -134,7 +136,6 @@ function displayNewArea() {
   newSection.appendChild(newQuesDiv)
   newQuesDiv.appendChild(newH2);
   newSection.appendChild(newAnsChoiceDiv);
-
 
   //adds question from questionObj into newH2
   newH2.textContent = questionObj[questionCount].question;
@@ -147,7 +148,7 @@ function displayNewArea() {
     newAnsChoiceDiv.appendChild(buttonArray[i]);
     //adds the answer choices from question Obj to button text
     buttonArray[i].textContent = questionObj[questionCount].choices[i];
-   
+
     //adds event listener to check response
     buttonArray[i].addEventListener('click', function (event){
       if(event.target.innerHTML === questionObj[questionCount].correctAnswer){
@@ -171,40 +172,47 @@ function displayNewArea() {
 );}
 }
 
-var renderScore = function(){
-  newSection.innerHTML = '';
-  displayResult.textContent = " ";
 
-  //creates the divs, h3, and p for end of quiz graphics
-  var newHighScoreDiv = document.createElement('div');
-  var directionDiv = document.createElement('div');
-  var finalH3 = document.createElement('h3');
-  var scoreP = document.createElement('p');
-  scoreP.setAttribute("class", "add-space")
-  
-  //appends divs, h3, and p to their divs  
+
+//creates the divs, h3, and p for end of quiz graphics
+var newHighScoreDiv = document.createElement('div');
+var directionDiv = document.createElement('div');
+var entryDiv = document.createElement('div');
+var finalH3 = document.createElement('h3');
+var scoreP = document.createElement('p');
+scoreP.setAttribute("class", "add-space")
+
+  //creates the form to enter initials
+  var initialsForm = document.createElement('form');  
+  var labelForm = document.createElement('label');
+  var formInput = document.createElement("input");
+  formInput.setAttribute("type", "text");
+  formInput.setAttribute("placeholder", "initials");
+  formInput.setAttribute("maxlength", "2");
+
+
+var renderScore = function(){  
+  newSection.innerHTML = '';
   newSection.appendChild(newHighScoreDiv)
+  newSection.appendChild(directionDiv)
   newHighScoreDiv.appendChild(finalH3);
-  
+  directionDiv.appendChild(scoreP);
+  newSection.appendChild(restartButton);
 
   finalH3.textContent = "Highscore";
 
-  var getUser = JSON.parse(localStorage.getItem("player1"));
-  scoreP.textContent = getUser.user +" has a score of "+ getUser.score + ".";
+  var getUser = JSON.parse(localStorage.getItem("player"));
+  scoreP.textContent = `${getUser.user}...........score: ${getUser.score}`
+
+
 }
+
+
 
 //clears the .console and displays the score with input for initials
 function displayScore(){
   newSection.innerHTML = '';
   displayResult.textContent = " ";
-
-  //creates the divs, h3, and p for end of quiz graphics
-  var newHighScoreDiv = document.createElement('div');
-  var directionDiv = document.createElement('div');
-  var entryDiv = document.createElement('div');
-  var finalH3 = document.createElement('h3');
-  var scoreP = document.createElement('p');
-  scoreP.setAttribute("class", "add-space")
   
   //appends divs, h3, and p to their divs  
   newSection.appendChild(newHighScoreDiv)
@@ -216,14 +224,6 @@ function displayScore(){
   //adds text to end of quiz graphics
   finalH3.textContent = "Time's up! Lets see how you did!"
   scoreP.textContent = "Your score is " + answeredCorrect +"."
-
-  //creates the form to enter initials
-  var initialsForm = document.createElement('form');  
-  var labelForm = document.createElement('label');
-  var formInput = document.createElement("input");
-  formInput.setAttribute("type", "text");
-  formInput.setAttribute("placeholder", "initials");
-  formInput.setAttribute("maxlength", "2");
 
   //creates submit button in the form and appends appropriate inputs to form
   var subInitials = document.createElement("input");
@@ -239,45 +239,40 @@ function displayScore(){
   subInitials.innerHTML = "Submit";
 
   //add an event listener to the form submit 
-  initialsForm.addEventListener("submit", function (event) {
+  initialsForm.addEventListener("submit", function (event){
     event.preventDefault();
-
     entryDiv.innerHTML = ""
+    showHighScore();
+  })}
+  
 
-  //  if(myInitials === null){
-  //   alert("Add your initials in the box.")
-  //  } else { }
-
-      //get and save user's initials
-      var myInitials = formInput.value;
-      var myScore = answeredCorrect.toString();
-
-      var player1 = {
-        user: myInitials,
-        score: myScore
-      } 
-      // var storedPlayers = localStorage.getItem("players");
-      // if(storedPlayers){
-      //   localStorage.setItem("players", JSON.stringify({...player1, ...storedPlayers}))
-      // } else {
-        localStorage.setItem("player1", JSON.stringify(player1));
-      // }
-      
-      finalH3.textContent = "Highscore";
-
-      var getUser = JSON.parse(localStorage.getItem("player1"));
-      scoreP.textContent = getUser.user +" has a score of "+ getUser.score + ".";
+  
+  function showHighScore(){
+    var getUser = JSON.parse(localStorage.getItem("player")) || [];
+    //get and save user's initials
+    var myInitials = formInput.value.toString();
+    var myScore = answeredCorrect.toString();
+     var player = {
+       user: myInitials,
+       score: myScore
       }
-  )
+      
+      getUser.push(player);
+    
+  localStorage.setItem("player", JSON.stringify(player));
+  finalH3.textContent = "Highscore";
+
+  scoreP.textContent = getUser.user +" has a score of "+ getUser.score + ".";
+      // if (localStorage.length > 0){
+      // scoreP.textContent = `${getUser.user}...........score: ${getUser.score}`+ `${localStorage}`;
+      // }else {
+      //   scoreP.textContent = `${getUser.user}...........score: ${getUser.score}`
+      // }
+  newSection.appendChild(restartButton);
 }
 
 var hScore = document.getElementById("high-score");
-hScore.addEventListener("click", function(){
-  //  newSection.setAttribute("style", "{display: none");
-renderScore();
-})
-
-//TODO add link from view highscores to local storage 
+hScore.addEventListener("click", renderScore)
 
 
 //adds event listener to start button to start timer and quiz
@@ -287,5 +282,6 @@ startQuiz.addEventListener('click', function() {
 }
 )
 
-//when the game is over, save initials and my score
-
+restartButton.addEventListener('click', ()=> {
+  location.reload();
+})
