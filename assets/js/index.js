@@ -172,8 +172,6 @@ function displayNewArea() {
 );}
 }
 
-
-
 //creates the divs, h3, and p for end of quiz graphics
 var newHighScoreDiv = document.createElement('div');
 var directionDiv = document.createElement('div');
@@ -191,6 +189,8 @@ scoreP.setAttribute("class", "add-space")
   formInput.setAttribute("maxlength", "2");
 
 
+
+  // use a for loop to create and append the list items
 var renderScore = function(){  
   newSection.innerHTML = '';
   newSection.appendChild(newHighScoreDiv)
@@ -201,13 +201,9 @@ var renderScore = function(){
 
   finalH3.textContent = "Highscore";
 
-  var getUser = JSON.parse(localStorage.getItem("player"));
-  scoreP.textContent = `${getUser.user}...........score: ${getUser.score}`
-
-
+  var getScores = JSON.parse(localStorage.getItem("player"));
+  scoreP.textContent = `${getScores.user}...........score: ${getScores.score}`
 }
-
-
 
 //clears the .console and displays the score with input for initials
 function displayScore(){
@@ -237,39 +233,45 @@ function displayScore(){
   //set the text content of the label and button
   labelForm.textContent = "Add your initials."
   subInitials.innerHTML = "Submit";
+}
 
   //add an event listener to the form submit 
   initialsForm.addEventListener("submit", function (event){
     event.preventDefault();
     entryDiv.innerHTML = ""
-    showHighScore();
-  })}
-  
-
-  
-  function showHighScore(){
-    var getUser = JSON.parse(localStorage.getItem("player")) || [];
-    //get and save user's initials
+    
+    //display users initials and score
     var myInitials = formInput.value.toString();
     var myScore = answeredCorrect.toString();
-     var player = {
-       user: myInitials,
-       score: myScore
-      }
-      
-      getUser.push(player);
-    
-  localStorage.setItem("player", JSON.stringify(player));
-  finalH3.textContent = "Highscore";
+    finalH3.textContent = "Highscore";
+    scoreP.textContent = myInitials +" has scored "+ myScore + " points!";
 
-  scoreP.textContent = getUser.user +" has a score of "+ getUser.score + ".";
-      // if (localStorage.length > 0){
-      // scoreP.textContent = `${getUser.user}...........score: ${getUser.score}`+ `${localStorage}`;
-      // }else {
-      //   scoreP.textContent = `${getUser.user}...........score: ${getUser.score}`
-      // }
-  newSection.appendChild(restartButton);
+    //get and save user's initials
+    var getScores = JSON.parse(localStorage.getItem("player")) || [];
+
+    var player = {
+      user: myInitials,
+      score: myScore
+    };
+
+    if(getScores.length < 6){
+    getScores.push(player)
+  } else {
+    if(myScore > getScores[5].score){
+      getScores.pop();
+      getScores.push(player);
+    }
+  }
+
+
+    getScores.sort(function(a,b){return b.score - a.score});
+    
+    localStorage.setItem("player", JSON.stringify(getScores));
+   
+    newSection.appendChild(restartButton);
 }
+)
+
 
 var hScore = document.getElementById("high-score");
 hScore.addEventListener("click", renderScore)
