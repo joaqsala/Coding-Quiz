@@ -13,7 +13,7 @@ var hScore = document.getElementById("high-score");
 var questionCount = 0;
 var answeredCorrect = 0;
 
-
+//stores the questions, answerchoices, and answers in an object
 var questionObj = [
   { question: "What is JavaScript?",
     choices: [
@@ -93,11 +93,9 @@ var questionObj = [
   },
 ];
 
-
-
 var timeLeft = 5;
 
-//on click, start timer that counts down from 60 seconds
+//on click, starts timer that counts down from 45 seconds
 function countdown() {
   //`setInterval()` to call a function that executes every 1000 milliseconds
   var timeInterval = setInterval(function () {
@@ -127,54 +125,52 @@ function penalty(){
   }}
 
   
-// remove previous content and display questions
+// remove previous content and displays questions
 function displayNewArea() {
   newSection.innerHTML = ''
 
-  //create new divs, an h2, and , gives them attributes, and appends them to the newSection/console div  
-  var newQuesDiv = document.createElement('div');
-  var newAnsChoiceDiv = document.createElement('div');
-  var newH2 = document.createElement('h2');
+//creates new divs, an h2, gives them attributes, and appends them to the newSection/console div  
+var newQuesDiv = document.createElement('div');
+var newAnsChoiceDiv = document.createElement('div');
+var newH2 = document.createElement('h2');
 
-  newQuesDiv.setAttribute('class', 'questions-asked');
-  newAnsChoiceDiv.setAttribute('class', 'answer-choices');
+newAnsChoiceDiv.setAttribute('class', 'answer-choices');
 
-  newSection.appendChild(newQuesDiv)
-  newQuesDiv.appendChild(newH2);
-  newSection.appendChild(newAnsChoiceDiv);
+newSection.appendChild(newQuesDiv)
+newQuesDiv.appendChild(newH2);
+newSection.appendChild(newAnsChoiceDiv);
 
-  //adds question from questionObj into newH2
-  newH2.textContent = questionObj[questionCount].question;
+//adds question from questionObj into newH2
+newH2.textContent = questionObj[questionCount].question;
   
-  //creates 4 buttons that are appended to the newAnsChoiceDiv 
-  var buttonArray = [];
-  for (var i = 0; i <= 3; i++) {
-    buttonArray[i] = document.createElement('button');
-    buttonArray[i].setAttribute('class', 'answer-btn');
-    newAnsChoiceDiv.appendChild(buttonArray[i]);
-    //adds the answer choices from question Obj to button text
-    buttonArray[i].textContent = questionObj[questionCount].choices[i];
+//creates 4 buttons that are appended to the newAnsChoiceDiv 
+var buttonArray = [];
+for (var i = 0; i <= 3; i++) {
+  buttonArray[i] = document.createElement('button');
+  buttonArray[i].setAttribute('class', 'answer-btn');
+  newAnsChoiceDiv.appendChild(buttonArray[i]);
+  //adds the answer choices from question Obj to button text
+  buttonArray[i].textContent = questionObj[questionCount].choices[i];
 
-    //adds event listener to check response
-    buttonArray[i].addEventListener('click', function (event){
-      if(event.target.innerHTML === questionObj[questionCount].correctAnswer){
-        displayResult.textContent = "Correct!";
-        answeredCorrect++;
-        questionCount++;
-      } else{
-        displayResult.textContent = "Sorry, that is not correct!";
-        questionCount++;
-        penalty();
-        }
-
+  //adds event listener to check response and changes counters
+  buttonArray[i].addEventListener('click', function (event){
+    if(event.target.innerHTML === questionObj[questionCount].correctAnswer){
+      displayResult.textContent = "Correct!";
+      answeredCorrect++;
+      questionCount++;
+    } else{
+      displayResult.textContent = "Sorry, that is not correct!";
+      questionCount++;
+      penalty();
+    }
+    //changes from one question to the next if questions are avaiable or displays score if none
     if (questionCount < questionObj.length){
       displayNewArea();
     } else {
       displayScore();
       timeLeft = 0;
       clearInterval(timeInterval);
-    }
-  }
+    }}
 );}
 }
 
@@ -184,7 +180,7 @@ var directionDiv = document.createElement('div');
 var entryDiv = document.createElement('div');
 var finalH3 = document.createElement('h3');
 var scoreP = document.createElement('p');
-scoreP.setAttribute("class", "add-space")
+scoreP.setAttribute("class", "add-space");
 
 //creates the form to enter initials
 var initialsForm = document.createElement('form');  
@@ -194,7 +190,7 @@ formInput.setAttribute("type", "text");
 formInput.setAttribute("placeholder", "initials");
 formInput.setAttribute("maxlength", "2");
 
-//clears the .console and displays the score with input for initials
+//clears the .console, displays users score, asks them to input their initials
 function displayScore(){
   newSection.innerHTML = '';
   displayResult.textContent = " ";
@@ -224,75 +220,82 @@ function displayScore(){
   subInitials.innerHTML = "Submit";
 }
 
-  //add an event listener to the form submit 
+//adds an event listener to the form to submit 
 initialsForm.addEventListener("submit", function (event){
   event.preventDefault();
   entryDiv.innerHTML = ""
     
-  //display users initials and score
-  var myInitials = formInput.value.toString();
-  var myScore = answeredCorrect.toString();
-  finalH3.textContent = "Highscore";
-  scoreP.textContent = myInitials +" has scored "+ myScore + " points!";
+//converts initials and score to strings to save onto localStorage (probably not needed)
+var myInitials = formInput.value.toString();
+var myScore = answeredCorrect.toString();
+//display users initials and score
+finalH3.textContent = "Highscore";
+scoreP.textContent = myInitials +" has scored "+ myScore + " points!";
 
- 
-  var getScores = JSON.parse(localStorage.getItem("player")) || [];
-
-  var player = {
-        user: myInitials,
-        score: myScore
-      };
-
-    if(getScores.length < 6){
-    getScores.push(player)
+//retrieves localStorage by the key "player, if non-existent, will return an empty array
+var getScores = JSON.parse(localStorage.getItem("player")) || [];
+//creats object with two properties
+var player = {
+      user: myInitials,
+      score: myScore
+    };
+//if less than 5 scores are in localStorage, scores are pushed to getStorage array
+  if(getScores.length < 5){
+  getScores.push(player)
   } else {
-    if(myScore > getScores[5].score){
-      getScores.pop();
-      getScores.push(player);
-    }
+  //if more than 5 scores, new scores are compared to lowest. Low score gets popped out. New score is pushed into array.
+  if(myScore > getScores[4].score){
+    getScores.pop();
+    getScores.push(player);
   }
-
-    getScores.sort(function(a,b){return b.score - a.score});
-    
-    localStorage.setItem("player", JSON.stringify(getScores));
-   
-    newSection.appendChild(restartButton);
 }
-)
+  //sorts the array so that the objects are listed in descending order
+  getScores.sort(function(a,b){return b.score - a.score});
+  //strinfies array and sets it to localStorage
+  localStorage.setItem("player", JSON.stringify(getScores));
+  //adds restart button to page
+  entryDiv.setAttribute("class", "center-restart");
+  entryDiv.appendChild(restartButton);
+})
 
+//creates empty array
 var listItem = [];
 
-// displays HighScores
+// displays top 5 scores
 var renderScore = function(){  
   newSection.innerHTML = '';
   scoreP.textContent = '';
-  newSection.appendChild(newHighScoreDiv);
-  newSection.appendChild(directionDiv)
-  newHighScoreDiv.appendChild(finalH3);
-  directionDiv.appendChild(scoreList);
   
+  //creates and appends divs and list to newSection/console div
+  var listContainer = document.createElement("div");
+  listContainer.setAttribute('class', 'list-container');
+  newSection.appendChild(newHighScoreDiv);
+  newSection.appendChild(listContainer);
+  newHighScoreDiv.appendChild(finalH3);
+  listContainer.appendChild(scoreList);
+  //creates button div to append buttons to
   var buttonDiv = document.createElement('div');
+  newSection.appendChild(buttonDiv);
   buttonDiv.setAttribute('class', 'fit-buttons')
   buttonDiv.appendChild(restartButton);
   buttonDiv.appendChild(clearScores);
 
   finalH3.textContent = "Highscores";
-
+  //retrieves localStorage by the key "player, if non-existent, will return an empty array
   var getScores = JSON.parse(localStorage.getItem("player")) || [];
-
-for (var i = 0; i < getScores.length; i++){
-  listItem[i] = document.createElement('li');
-  listItem[i].setAttribute('class', 'list-item');
-  scoreList.appendChild(listItem[i]);
-  listItem[i].textContent = getScores[i].user + ".............." + getScores[i].score 
-}}
-
+  //creates list items elements, gives attributes, and appends to div
+  for (var i = 0; i < getScores.length; i++){
+    listItem[i] = document.createElement('li');
+    listItem[i].setAttribute('class', 'list-item');
+    scoreList.appendChild(listItem[i]);
+    //gets info from localStorage to display in list
+    listItem[i].textContent = getScores[i].user + ".............." + getScores[i].score 
+  }}
 
 //adds event listener to HighScore in nav 
 hScore.addEventListener("click", renderScore)
 
-
-//adds event listener to start, restart, and clear buttons
+//adds event listener to start, restart, and clear storage buttons
 startQuiz.addEventListener('click', function() {
   countdown();
   displayNewArea();
@@ -304,4 +307,5 @@ restartButton.addEventListener('click', ()=> {
 
 clearScores.addEventListener('click', function(){
   localStorage.clear();
+  renderScore();
 })

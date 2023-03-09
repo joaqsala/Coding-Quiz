@@ -22,6 +22,7 @@ nav {
 cursor: pointer;
 }
 
+/* body elements */
 /* outer box */
 .console {
     border: 1px solid gray;
@@ -35,7 +36,16 @@ cursor: pointer;
     margin-top: 40px;
 }
 
-/* centers the start button in the div */
+h1 {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+p {
+    margin: 20px;
+}
+
+/* centers the start button in the opening body */
 .button-box {
     display: flex;
     justify-content: center;
@@ -43,7 +53,7 @@ cursor: pointer;
     height: 150px;
 }
 
-/* button styles */
+/* styles for buttons */
 .begin-quiz,
 .restart,
 .clear {
@@ -52,19 +62,22 @@ cursor: pointer;
     border-radius: 5px;
     font-size: 1rem;
     width: 120px;
-    margin: auto;
+    margin: 20px;
 }
 
-.question-console {
-    padding: 40px;
-    margin: 10px;
+/* style to questions */
+h2 {
+    padding: 10px;
+    margin-top: -10px;
 }
 
+/* aligns the answer choices vertically */
 .answer-choices {
     display: flex;
     flex-direction: column;
 }
 
+/* adds style to answer choice buttons */
 .answer-btn {
     text-align: left;
     padding: 10px;
@@ -78,15 +91,7 @@ cursor: pointer;
     color: white;
 }
 
-.answer-btn:active {
-    background-color: rgb(158, 68, 248);
-    color: white;
-}
-
-h2 {
-    padding: 10px;
-}
-
+/* graphics for correct/incorrect responses */
 .right-wrong {
     /* margin: auto; */
     margin-top: -35px;
@@ -98,22 +103,43 @@ h2 {
     width: 100%;
 }
 
-h3{
+/* highscore labels */
+h3 {
     font-size: 1.75rem;
     color:rgb(97, 41, 153);
-    padding: 30px;
+    padding: 10px;
+    text-align: center;
+    margin-top: -10px;
+}
+
+/* highscore text */
+.add-space {
+    margin-bottom: 25px;
     text-align: center;
 }
 
-.add-space {
- margin-bottom: 25px;
- text-align: center;
-}
-
+/* aligns form to enter initials */
 form {
     text-align: center;
 }
 
+/* aligns restart button */
+.center-restart {
+    text-align: center;
+}
+
+/* top 5 scores list */
+.list-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 140px;
+    font-size: 1.1rem;
+}
+
+/* aligns buttons on top 5 highscore page*/
 .fit-buttons {
-    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
