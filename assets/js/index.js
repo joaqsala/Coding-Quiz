@@ -2,9 +2,14 @@ var timerDisplay = document.querySelector(".show-time");
 var startQuiz = document.querySelector(".begin-quiz");
 var newSection = document.querySelector('.console');
 var displayResult = document.querySelector(".right-wrong");
+var scoreList = document.createElement('ol');
 var restartButton = document.createElement('button');
 restartButton.classList.add("restart");
 restartButton.innerHTML = "New Quiz";
+var clearScores = document.createElement('button');
+clearScores.classList.add("clear");
+clearScores.innerHTML = "Clear scores";
+var hScore = document.getElementById("high-score");
 var questionCount = 0;
 var answeredCorrect = 0;
 
@@ -113,6 +118,7 @@ function countdown() {
   }, 1000);
 }
 
+//removes 10 seconds for every incorrect answer
 function penalty(){
   if(timeLeft >= 11){
     timeLeft = timeLeft - 10;
@@ -180,30 +186,13 @@ var finalH3 = document.createElement('h3');
 var scoreP = document.createElement('p');
 scoreP.setAttribute("class", "add-space")
 
-  //creates the form to enter initials
-  var initialsForm = document.createElement('form');  
-  var labelForm = document.createElement('label');
-  var formInput = document.createElement("input");
-  formInput.setAttribute("type", "text");
-  formInput.setAttribute("placeholder", "initials");
-  formInput.setAttribute("maxlength", "2");
-
-
-
-  // use a for loop to create and append the list items
-var renderScore = function(){  
-  newSection.innerHTML = '';
-  newSection.appendChild(newHighScoreDiv)
-  newSection.appendChild(directionDiv)
-  newHighScoreDiv.appendChild(finalH3);
-  directionDiv.appendChild(scoreP);
-  newSection.appendChild(restartButton);
-
-  finalH3.textContent = "Highscore";
-
-  var getScores = JSON.parse(localStorage.getItem("player"));
-  scoreP.textContent = `${getScores.user}...........score: ${getScores.score}`
-}
+//creates the form to enter initials
+var initialsForm = document.createElement('form');  
+var labelForm = document.createElement('label');
+var formInput = document.createElement("input");
+formInput.setAttribute("type", "text");
+formInput.setAttribute("placeholder", "initials");
+formInput.setAttribute("maxlength", "2");
 
 //clears the .console and displays the score with input for initials
 function displayScore(){
@@ -236,23 +225,23 @@ function displayScore(){
 }
 
   //add an event listener to the form submit 
-  initialsForm.addEventListener("submit", function (event){
-    event.preventDefault();
-    entryDiv.innerHTML = ""
+initialsForm.addEventListener("submit", function (event){
+  event.preventDefault();
+  entryDiv.innerHTML = ""
     
-    //display users initials and score
-    var myInitials = formInput.value.toString();
-    var myScore = answeredCorrect.toString();
-    finalH3.textContent = "Highscore";
-    scoreP.textContent = myInitials +" has scored "+ myScore + " points!";
+  //display users initials and score
+  var myInitials = formInput.value.toString();
+  var myScore = answeredCorrect.toString();
+  finalH3.textContent = "Highscore";
+  scoreP.textContent = myInitials +" has scored "+ myScore + " points!";
 
-    //get and save user's initials
-    var getScores = JSON.parse(localStorage.getItem("player")) || [];
+ 
+  var getScores = JSON.parse(localStorage.getItem("player")) || [];
 
-    var player = {
-      user: myInitials,
-      score: myScore
-    };
+  var player = {
+        user: myInitials,
+        score: myScore
+      };
 
     if(getScores.length < 6){
     getScores.push(player)
@@ -263,7 +252,6 @@ function displayScore(){
     }
   }
 
-
     getScores.sort(function(a,b){return b.score - a.score});
     
     localStorage.setItem("player", JSON.stringify(getScores));
@@ -272,18 +260,48 @@ function displayScore(){
 }
 )
 
+var listItem = [];
 
-var hScore = document.getElementById("high-score");
+// displays HighScores
+var renderScore = function(){  
+  newSection.innerHTML = '';
+  scoreP.textContent = '';
+  newSection.appendChild(newHighScoreDiv);
+  newSection.appendChild(directionDiv)
+  newHighScoreDiv.appendChild(finalH3);
+  directionDiv.appendChild(scoreList);
+  
+  var buttonDiv = document.createElement('div');
+  buttonDiv.setAttribute('class', 'fit-buttons')
+  buttonDiv.appendChild(restartButton);
+  buttonDiv.appendChild(clearScores);
+
+  finalH3.textContent = "Highscores";
+
+  var getScores = JSON.parse(localStorage.getItem("player")) || [];
+
+for (var i = 0; i < getScores.length; i++){
+  listItem[i] = document.createElement('li');
+  listItem[i].setAttribute('class', 'list-item');
+  scoreList.appendChild(listItem[i]);
+  listItem[i].textContent = getScores[i].user + ".............." + getScores[i].score 
+}}
+
+
+//adds event listener to HighScore in nav 
 hScore.addEventListener("click", renderScore)
 
 
-//adds event listener to start button to start timer and quiz
+//adds event listener to start, restart, and clear buttons
 startQuiz.addEventListener('click', function() {
   countdown();
   displayNewArea();
-}
-)
+})
 
 restartButton.addEventListener('click', ()=> {
   location.reload();
+})
+
+clearScores.addEventListener('click', function(){
+  localStorage.clear();
 })
