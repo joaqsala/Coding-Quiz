@@ -307,5 +307,5 @@ restartButton.addEventListener('click', ()=> {
 
 clearScores.addEventListener('click', function(){
   localStorage.clear();
-  renderScore();
+  location.reload();
 })
