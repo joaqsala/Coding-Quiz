@@ -93,7 +93,7 @@ var questionObj = [
   },
 ];
 
-var timeLeft = 5;
+var timeLeft = 45;
 
 //on click, starts timer that counts down from 45 seconds
 function countdown() {
