@@ -1,4 +1,4 @@
-# 4-weekly-challenge
+# Coding Quiz
 Week 4 Challenge - Creating a timed test
 
 ## Description
