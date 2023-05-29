@@ -258,7 +258,7 @@ initialsForm.addEventListener("submit", function (event) {
   finalH3.textContent = "Highscore";
   scoreP.textContent = myInitials + " has scored " + myScore + " points!";
 
-  //retrieves localStorage by the key "player, if non-existent, will return an empty array
+  //retrieves localStorage by the key "player", if non-existent, will return an empty array
   var getScores = JSON.parse(localStorage.getItem("player")) || [];
   //creats object with two properties
   var player = {
@@ -286,11 +286,10 @@ initialsForm.addEventListener("submit", function (event) {
   entryDiv.appendChild(restartButton);
 });
 
-//creates empty array
-var listItem = [];
-
 // displays top 5 scores
 var renderScore = function () {
+  timerDisplay.textcontent = "TIMER";
+  displayResult.innerHTML = "";
   newSection.innerHTML = "";
   scoreP.textContent = "";
 
@@ -311,19 +310,22 @@ var renderScore = function () {
   finalH3.textContent = "Highscores";
   //retrieves localStorage by the key "player, if non-existent, will return an empty array
   var getScores = JSON.parse(localStorage.getItem("player")) || [];
+  
   //creates list items elements, gives attributes, and appends to div
   for (var i = 0; i < getScores.length; i++) {
-    listItem[i] = document.createElement("li");
-    listItem[i].setAttribute("class", "list-item");
-    scoreList.appendChild(listItem[i]);
+    listItem = document.createElement("li");
+    listItem.setAttribute("class", "list-item");
     //gets info from localStorage to display in list
-    listItem[i].textContent =
-      getScores[i].user + ".............." + getScores[i].score;
+    listItem.textContent =
+    getScores[i].user + " .............. " + getScores[i].score;
+    scoreList.appendChild(listItem);
   }
 };
 
 //adds event listener to HighScore in nav
-hScore.addEventListener("click", renderScore);
+hScore.addEventListener("click", function(){
+  renderScore()
+});
 
 //adds event listener to start, restart, and clear storage buttons
 startQuiz.addEventListener("click", function () {
